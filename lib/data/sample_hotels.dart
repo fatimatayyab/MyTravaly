@@ -7,10 +7,11 @@ final List<Hotel> sampleHotels = [
     city: "Bangalore",
     state: "Karnataka",
     country: "India",
-    rating: 4.3,
-    pricePerNight: 2500,
+    rating: 4.3, 
+    starRating: 4, 
+    displayPrice: "₹2,500", 
     imageUrl:
-        "https://dwq3yv87q1b43.cloudfront.net/public/property/property_images/fit-in/600x600/1171844694-1401210705.jpg",
+        "https://dwq3yv87q1b43.cloudfront.net/public/property/property_images/fit-in/600x600/725350030-2072256155.jpg",
     description:
         "Modern hotel located in the heart of Indiranagar, close to shopping and dining areas.",
   ),
@@ -21,7 +22,8 @@ final List<Hotel> sampleHotels = [
     state: "Delhi",
     country: "India",
     rating: 3.8,
-    pricePerNight: 1800,
+    starRating: 3,
+    displayPrice: "₹1,800",
     imageUrl:
         "https://dwq3yv87q1b43.cloudfront.net/public/property/property_images/fit-in/600x600/725350030-2072256155.jpg",
     description:
@@ -34,9 +36,10 @@ final List<Hotel> sampleHotels = [
     state: "Karnataka",
     country: "India",
     rating: 4.1,
-    pricePerNight: 3200,
+    starRating: 4,
+    displayPrice: "₹3,200",
     imageUrl:
-        "https://dwq3yv87q1b43.cloudfront.net/public/property/property_images/fit-in/600x600/1601635711-1441904012.jpg",
+        "https://dwq3yv87q1b43.cloudfront.net/public/property/property_images/fit-in/600x600/725350030-2072256155.jpg",
     description:
         "Stylish boutique stay in Indiranagar offering free WiFi and complimentary breakfast.",
   ),
@@ -47,7 +50,8 @@ final List<Hotel> sampleHotels = [
     state: "Jharkhand",
     country: "India",
     rating: 4.5,
-    pricePerNight: 2100,
+    starRating: 3,
+    displayPrice: "₹2,100",
     imageUrl:
         "https://dwq3yv87q1b43.cloudfront.net/public/property/property_images/fit-in/600x600/725350030-2072256155.jpg",
     description:
@@ -55,22 +59,3 @@ final List<Hotel> sampleHotels = [
   ),
 ];
 
-// Optional: API-like structure for testing search results
-final List<Map<String, dynamic>> sampleHotelsApiFormat = sampleHotels.map((hotel) {
-  return {
-    'propertyId': hotel.id,
-    'propertyName': hotel.name,
-    'address': {
-      'city': hotel.city,
-      'state': hotel.state,
-      'country': hotel.country,
-    },
-    'propertyStar': hotel.rating,
-    'propertyMinPrice': {'amount': hotel.pricePerNight},
-    'propertyImage': {'fullUrl': hotel.imageUrl},
-    'description': hotel.description,
-    'searchArray': {
-      'query': [hotel.id]
-    }
-  };
-}).toList();

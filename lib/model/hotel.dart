@@ -5,9 +5,10 @@ class Hotel {
   final String state;
   final String country;
   final double rating;
-  final double pricePerNight;
+  final String displayPrice;
   final String imageUrl;
   final String description;
+  final int starRating;
 
   Hotel({
     required this.id,
@@ -16,46 +17,49 @@ class Hotel {
     required this.state,
     required this.country,
     required this.rating,
-    required this.pricePerNight,
+    required this.displayPrice,
     required this.imageUrl,
     required this.description,
+    required this.starRating,
   });
 
   factory Hotel.fromJson(Map<String, dynamic> json) {
-    // 1. Use 'propertyAddress' key from the JSON, not 'address'
-    final address = json['propertyAddress'] ?? {};
+    final String id =
+        (json['searchArray']?['query'] != null &&
+            json['searchArray']['query'].isNotEmpty)
+        ? json['searchArray']['query'][0].toString()
+        : (json['propertyCode'] as String?) ?? '';
 
-    // 2. Safely access Google Review data for the rating
-    final googleReviewData = json['googleReview']?['data'] ?? {};
+    final address = json['address'] ?? json['propertyAddress'] ?? {};
 
-    // 3. Determine image URL safely
+    final priceMap = json['staticPrice'] ?? json['markedPrice'];
+    final String price = priceMap?['displayAmount'] as String? ?? 'Price N/A';
+
+    final double overallRating =
+        json['googleReview']?['data']?['overallRating'] as double? ?? 0.0;
+
     String imgUrl = '';
     final propertyImage = json['propertyImage'];
 
     if (propertyImage is String && propertyImage.isNotEmpty) {
-      imgUrl = propertyImage;
-    } else if (propertyImage is Map && propertyImage['fullUrl'] != null) {
-      imgUrl = propertyImage['fullUrl'];
+      imgUrl = propertyImage.trim();
+    } else if (propertyImage is Map<String, dynamic> &&
+        propertyImage['fullUrl'] is String &&
+        (propertyImage['fullUrl'] as String).isNotEmpty) {
+      imgUrl = (propertyImage['fullUrl'] as String).trim();
     }
 
-    // Determine the rating: prefer Google Review rating, otherwise use propertyStar
-    final ratingValue =
-        googleReviewData['overallRating'] ?? json['propertyStar'] ?? 0;
-
     return Hotel(
-      // 4. Use 'propertyCode' for the ID as 'searchArray' is missing in the JSON
-      id: json['propertyCode'] ?? '',
-      name: json['propertyName'] ?? 'Unknown',
-      // City, State, Country are correctly pulled from the 'propertyAddress' map
+      id: id,
+      name: json['propertyName'] ?? json['valueToDisplay'] ?? 'Unknown',
       city: address['city'] ?? '',
       state: address['state'] ?? '',
       country: address['country'] ?? '',
-      // Use the derived rating value (Google Review or propertyStar)
-      rating: (ratingValue).toDouble(),
-      // 5. Use 'staticPrice' key for the price, not 'propertyMinPrice'
-      pricePerNight: (json['staticPrice']?['amount'] ?? 0).toDouble(),
+      rating: overallRating,
+      displayPrice: price,
       imageUrl: imgUrl.isNotEmpty ? imgUrl : 'assets/images/hotel.png',
       description: json['description'] ?? 'No description available.',
+      starRating: json['propertyStar'] as int? ?? 0,
     );
   }
 }

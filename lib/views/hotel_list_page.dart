@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mytravely_app/data/sample_hotels.dart';
 import 'package:mytravely_app/model/hotel.dart';
-import 'package:mytravely_app/services/apiservice.dart';
+import 'package:mytravely_app/services/hotel_service.dart';
 import 'package:mytravely_app/widgets/hotel_card.dart';
-import 'package:mytravely_app/search_results.dart';
+import 'package:mytravely_app/views/search_results.dart';
 
 class HotelListPage extends StatefulWidget {
   const HotelListPage({super.key});
@@ -54,8 +54,7 @@ class _HotelListPageState extends State<HotelListPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) =>
-              SearchResultsPage(queryController: _searchController),
+          builder: (_) => SearchResultsPage(queryController: _searchController),
         ),
       ).then((_) => _navigatedToResults = false);
     }
@@ -102,10 +101,10 @@ class _HotelListPageState extends State<HotelListPage> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _errorMessage != null
-              ? _buildErrorView()
-              : _hotels.isEmpty
-                  ? _buildEmptyView()
-                  : _buildHotelList(),
+          ? _buildErrorView()
+          : _hotels.isEmpty
+          ? _buildEmptyView()
+          : _buildHotelList(),
     );
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mytravely_app/hotel_list_page.dart';
+import 'package:mytravely_app/views/hotel_list_page.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 class GoogleSigninView extends StatelessWidget {
@@ -18,16 +18,16 @@ class GoogleSigninView extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-  gradient: LinearGradient(
-    colors: [
-      Color.fromRGBO(255, 255, 255, 0.3),
-      Color.fromRGBO(255, 255, 255, 0.3),
-    ],
-    begin: Alignment.bottomCenter,
-    end: Alignment.topCenter,
-  ),
-),
-  
+            gradient: LinearGradient(
+              colors: [
+                Color.fromRGBO(255, 255, 255, 0.3),
+                Color.fromRGBO(255, 255, 255, 0.3),
+              ],
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+            ),
+          ),
+
           child: Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
