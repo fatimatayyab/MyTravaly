@@ -2,11 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mytravely_app/model/hotel.dart';
+import 'package:mytravely_app/services/visitor_service.dart';
+import 'package:mytravely_app/config/app_config.dart';
 
+//baseUrl and AuthToken in Config File. 
+//Not Committed For Security
 class HotelService {
-  final String baseUrl = "https://api.mytravaly.com/public/v1/";
-  final String authToken = "71523fdd8d26f585315b4233e39d9263";
-  final String visitorToken = "5528-e438-a79f-67bc-b81f-c672-5afb-7148";
+
+  final visitorToken = VisitorService.visitorToken; 
+
 
   static const int pageSize = 5;
 
@@ -27,7 +31,7 @@ class HotelService {
 
       final hotels = await _fetchHotelsByIds(ids);
       return hotels;
-    } catch (e, st) {
+    } catch (e) {
       return [];
     }
   }
@@ -52,15 +56,15 @@ class HotelService {
         "offset": offset,
       },
     });
-
+  final visitorToken = VisitorService.visitorToken; 
     try {
       final resp = await http
           .post(
-            Uri.parse(baseUrl),
+            Uri.parse(AppConfig.baseUrl),
             headers: {
               "Content-Type": "application/json",
-              "authtoken": authToken,
-              "visitortoken": visitorToken,
+              "authtoken": AppConfig.authToken,
+              "visitortoken": visitorToken ?? '',
             },
             body: body,
           )
@@ -164,11 +168,11 @@ class HotelService {
 
       try {
         final response = await http.post(
-          Uri.parse(baseUrl),
+          Uri.parse(AppConfig.baseUrl),
           headers: {
             'Content-Type': 'application/json',
-            'authtoken': authToken,
-            'visitortoken': visitorToken,
+            'authtoken': AppConfig.authToken,
+            'visitortoken': visitorToken ?? '',
           },
           body: body,
         );

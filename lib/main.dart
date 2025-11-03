@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mytravely_app/services/visitor_service.dart';
 import 'package:mytravely_app/views/google_signin.dart';
 
-void main() {
+void main() async{
+    WidgetsFlutterBinding.ensureInitialized();
+    await VisitorService().registerDevice();
+
   runApp(const MyApp());
 }
 
